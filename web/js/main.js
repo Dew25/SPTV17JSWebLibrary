@@ -1,6 +1,9 @@
-console.log('hello');
+
+import {authModule} from './AuthModule.js';
+
 document.getElementById('enter-menu').onclick=function(){
     toogleMenuActive('enter-menu');
+    authModule.printLoginForm();
 }
 document.getElementById('sysout').onclick=function(){
     toogleMenuActive('sysout');
