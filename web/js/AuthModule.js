@@ -24,7 +24,26 @@ class AuthModule{
         document.getElementById('registration').addEventListener('click', userModule.printRegistrationForm);
     }
     auth(){
-        console.log('отработал метода authModule.auth()');
+        //console.log('отработал метода authModule.auth()');
+        let login = document.getElementById('login').value;
+        let password = document.getElementById('password').value;
+        let credential = {
+          "login": login,
+          "password": password,
+        }
+        httpModule.http('login','POST',credential)
+                .then(function(response){
+                  if(response === null || response === undefined){
+                    document.getElementById('info').innerHTML='Авторизация не произошла';
+                    return;
+                  }
+                  if(response.authStatus == 'false'){
+                    document.getElementById('info').innerHTML='Неправильный логин или пароль';
+                    return;
+                  }
+                  document.getElementById('info').innerHTML='Вы вошли как '+ response.user.login;
+                  sessionStorage.setItem('user',JSON.stringify(response.user));
+                });
     }
     
 }

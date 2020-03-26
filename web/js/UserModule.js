@@ -1,3 +1,4 @@
+
 import {httpModule} from './HttpModule.js';
 class UserModule{
     printRegistrationForm(){
@@ -40,19 +41,22 @@ class UserModule{
               "lastname": lastname,
               "email": email,
               "money": money,
+              "city": city,
               "street": street,
               "house": house,
               "room": room,
               "login": login,
               "password": password,
           }
-          httpModule.http({url:'createUser', options:{method:'POST',data: user}})
-                  .then(function(response){
-                      if(response === null || response === 'undefined'){
+          //метод http возвращает промис (ожидание), код которого выполнится 
+          //в браузере после того как сервер обработает запрос и вернет ответ
+          httpModule.http('createUser', 'POST', user)
+                  .then(function(response){// response содержит ответ от сервера
+                      if(response === null || response === undefined){
                           document.getElementById('info').innerHTML = 'Пользователя добавить неудалось';
                           userModule.printRegistrationForm(); 
                       }
-                      if(response.actionStatus !== 'true'){
+                      if(response.actionStatus === 'false'){
                           document.getElementById('info').innerHTML = 'Пользователя добавить неудалось';
                           userModule.printRegistrationForm(); 
                       }
