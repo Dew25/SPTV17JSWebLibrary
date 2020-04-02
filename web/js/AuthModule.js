@@ -43,7 +43,39 @@ class AuthModule{
                   }
                   document.getElementById('info').innerHTML='Вы вошли как '+ response.user.login;
                   sessionStorage.setItem('user',JSON.stringify(response.user));
+                  authModule.toogleVisibleMenus();
                 });
+    }
+    logout(){
+      httpModule.http('logout','GET')
+              .then(function(response){
+                if(response === null || response === undefined){
+                  document.getElementById('info').innerHTML='Ошибка!';
+                  return;
+                }
+                if(response.authStatus === 'false'){
+                  document.getElementById('info').innerHTML='Вы вышли';
+                  document.getElementById('content').innerHTML='';
+                  if(sessionStorage.getItem('user') !== null){
+                    sessionStorage.removeItem('user');
+                  }
+                  authModule.toogleVisibleMenus();
+                }
+              })
+      
+    }
+    toogleVisibleMenus(){
+      if(sessionStorage.getItem('user') === null){
+        document.getElementById('sysout').style.display = 'none';
+        document.getElementById('enter-menu').style.display = 'block';
+        document.getElementById('printListBooksForm').style.display = 'none';
+        document.getElementById('printNewBookForm').style.display = 'none';
+      }else{
+        document.getElementById('sysout').style.display = 'block';
+        document.getElementById('enter-menu').style.display = 'none';
+        document.getElementById('printListBooksForm').style.display = 'block';
+        document.getElementById('printNewBookForm').style.display = 'block';
+      }
     }
     
 }

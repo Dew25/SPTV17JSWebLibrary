@@ -189,7 +189,18 @@ public class LoginController extends HttpServlet {
                     }
                 break;
             case "/logout":
-                
+                session = request.getSession(false);
+                if(session != null){
+                    session.invalidate();
+                }
+                job.add("actionStatus", "true")
+                            .add("user","null")
+                            .add("authStatus", "false")
+                            .add("data", "null");
+                try (Writer writer = new StringWriter()){
+                    Json.createWriter(writer).write(job.build());
+                    json = writer.toString();
+                }
                 break;
         }
         // Отлавливаем json переменную, проверяем содержание 

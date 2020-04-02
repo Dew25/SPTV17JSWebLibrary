@@ -7,6 +7,7 @@ document.getElementById('enter-menu').onclick=function(){
 }
 document.getElementById('sysout').onclick=function(){
     toogleMenuActive('sysout');
+    authModule.logout();
 }
 
 function toogleMenuActive(elementId){
@@ -22,3 +23,4 @@ function toogleMenuActive(elementId){
     }
   }
 }
+authModule.toogleVisibleMenus();
