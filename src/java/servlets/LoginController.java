@@ -5,12 +5,14 @@
  */
 package servlets;
 
+import entity.Book;
 import entity.Person;
 import entity.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -22,7 +24,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import jsonbuilders.JsonBookBuilder;
 import jsonbuilders.JsonUserBuilder;
+import session.BookFacade;
 import session.PersonFacade;
 import session.UserFacade;
 import util.EncryptPass;
@@ -35,11 +39,13 @@ import util.EncryptPass;
     "/createUser", 
     "/login", 
     "/logout",
+    "/listBooks",
     
 })
 public class LoginController extends HttpServlet {
 @EJB private PersonFacade personFacade;
 @EJB private UserFacade userFacade;
+@EJB private BookFacade bookFacade;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -52,6 +58,7 @@ public class LoginController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
         String json = "";
         JsonObjectBuilder job = Json.createObjectBuilder();
         EncryptPass ep = new EncryptPass();
@@ -202,6 +209,18 @@ public class LoginController extends HttpServlet {
                     json = writer.toString();
                 }
                 break;
+            case "/listBooks":    
+                List<Book> listBooks = bookFacade.findAll();
+                JsonBookBuilder jbb = new JsonBookBuilder();
+                job.add("actionStatus", "true")
+                            .add("user","null")
+                            .add("authStatus", "true")
+                            .add("data", jbb.createJsonListBooks(listBooks));
+                try (Writer writer = new StringWriter()){
+                    Json.createWriter(writer).write(job.build());
+                    json = writer.toString();
+                }
+                break;    
         }
         // Отлавливаем json переменную, проверяем содержание 
         // и если оно есть, отправляем клиенту

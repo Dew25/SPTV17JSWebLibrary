@@ -10,7 +10,7 @@
     </head>
     <body>
         <div class="container">
-          <div class="nav text-light w-100 bg-primary d-flex justify-content-between">
+          <div class=" nav text-light w-100 bg-primary d-flex justify-content-between">
             <p class="nav nav-link">Сетевая библиотека</p>
             <ul class="nav nav-item d-flex justify-content-end ">
                 <li class="nav-item">
@@ -27,20 +27,70 @@
                 </li>
             </ul>
           </div>
-            <div id="info" class="w-100 text-center"></div>
-            <div id="content">
-               <div class="row mt-5 w-100 d-flex justify-content-center">
-               <div class="card border-primary p-2" style="max-width: 30rem;">
-                  <div class="card-header text-center">Введите логин и пароль</div>
+          <div id="info" class="w-100 text-center mt-5"></div>
+          <div id="content">
+            <h2 class="w-100 text-center">Список книг</h2>
+            <div class="row row-cols-1 row-cols-md-3 mt-4">
+              <div class="col mb-4">
+                <div class="card h-100" style="width: 18em;">
+                  <img src="img/WIM.jpg" class="card-img-top" alt="..." >
                   <div class="card-body">
-                    <p class="card-text d-flex justify-content-between">Логин: <input class="ml-2" type="text" id="login"></p>
-                    <p class="card-text d-flex justify-content-between">Пароль: <input class="ml-2" type="text" id="password"></p>
-                    <p class="card-text"><button class="btn btn-light w-100" type="button" id="btnEnter">Войти</button</p>
+                    <h5 class="card-title">${book.name}</h5>
+                    <p class="card-text">${book.author}</p>
+                    <p class="card-text">${book.price}</p>
+                    <div class="card-footer d-flex justify-content-between">
+                      <a href='#' class="card-link">Читать</a>
+                      <a href='#' class="card-link">Купить</a>
+                    </div>
                   </div>
-                  <p class="w-100 text-center">Нет учетной записи?<br><a id="registration" href="#">Зарегистрироваться</a></p>
-               </div>
-             </div>;
+                </div>
+              </div>
+              <div class="col mb-4">
+                <div class="card h-100" style="width: 18em;">
+                  <img src="img/WIM.jpg" class="card-img-top" alt="..." >
+                  <div class="card-body">
+                    <h5 class="card-title">${book.name}</h5>
+                    <p class="card-text">${book.author}</p>
+                    <p class="card-text">${book.price}</p>
+                    <div class="card-footer d-flex justify-content-between">
+                      <a href='#' class="card-link">Читать</a>
+                      <a href='#' class="card-link">Купить</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col mb-4">
+                <div class="card h-100" style="width: 18em;">
+                  <img src="img/WIM.jpg" class="card-img-top" alt="..." >
+                  <div class="card-body">
+                    <h5 class="card-title">${book.name}</h5>
+                    <p class="card-text">${book.author}</p>
+                    <p class="card-text">${book.price}</p>
+                    <div class="card-footer d-flex justify-content-between">
+                      <a href='#' class="card-link">Читать</a>
+                      <a href='#' class="card-link">Купить</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col mb-4">
+                <div class="card h-100" style="width: 18em;">
+                  <img src="img/WIM.jpg" class="card-img-top" alt="..." >
+                  <div class="card-body">
+                    <h5 class="card-title">${book.name}</h5>
+                    <p class="card-text">${book.author}</p>
+                    <p class="card-text">${book.price}</p>
+                    <div class="card-footer d-flex justify-content-between">
+                      <a href='#' class="card-link">Читать</a>
+                      <a href='#' class="card-link">Купить</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              z
+              
             </div>
+          </div>
         </div>
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

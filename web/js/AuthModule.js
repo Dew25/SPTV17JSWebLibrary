@@ -4,6 +4,7 @@ import {userModule} from './UserModule.js';
 class AuthModule{
     
     printLoginForm(){
+      document.getElementById('info').innerHTML='&nbsp;';
         document.getElementById('content').innerHTML = 
             ` <div class="row mt-5 w-100 d-flex justify-content-center">
                <div class="card border-primary p-2" style="max-width: 30rem;">
@@ -37,12 +38,13 @@ class AuthModule{
                     document.getElementById('info').innerHTML='Авторизация не произошла';
                     return;
                   }
-                  if(response.authStatus == 'false'){
+                  if(response.authStatus === 'false'){
                     document.getElementById('info').innerHTML='Неправильный логин или пароль';
                     return;
                   }
                   document.getElementById('info').innerHTML='Вы вошли как '+ response.user.login;
                   sessionStorage.setItem('user',JSON.stringify(response.user));
+                  document.getElementById('content').innerHTML='';
                   authModule.toogleVisibleMenus();
                 });
     }
