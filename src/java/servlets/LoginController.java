@@ -33,7 +33,7 @@ import util.EncryptPass;
 
 /**
  *
- * @author Irina
+ * @author JVM
  */
 @WebServlet(name = "LoginController", urlPatterns = {
     "/createUser", 
@@ -70,11 +70,11 @@ public class LoginController extends HttpServlet {
                 String firstname = jsonObject.getString("firstname");
                 String lastname = jsonObject.getString("lastname");
                 String email = jsonObject.getString("email");
-                String money = jsonObject.getString("money");
                 String city = jsonObject.getString("city");
                 String street = jsonObject.getString("street");
                 String house = jsonObject.getString("house");
                 String room = jsonObject.getString("room");
+                String money = jsonObject.getString("money");
                 String login = jsonObject.getString("login");
                 String password = jsonObject.getString("password");
                 // -------- проверка на null и на "" ---------
@@ -106,7 +106,7 @@ public class LoginController extends HttpServlet {
                 Person person = null;
                 User user = null;
                 try {// защищаем запись в базу от возможных ошибок
-                    person = new Person(firstname, lastname, email, city, street, house, room);
+                    person = new Person(firstname, lastname, email, city, street, house, room, Integer.parseInt(money));
                     personFacade.create(person);
                     String salts = ep.createSalts();
                     password = ep.setEncriptPass(password, salts);

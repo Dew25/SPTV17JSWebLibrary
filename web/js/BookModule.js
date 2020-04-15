@@ -19,11 +19,13 @@ class BookModule{
                           </div>
                           <div class="input-group mb-3">
                             <input id="publishedYear" type="text" class="form-control" placeholder="Год изнания" aria-label="Год изнания">
-                            <input id="quantity" type="text" class="form-control" placeholder="Количество" aria-label="Количество">
                             <input id="price" type="text" class="form-control" placeholder="Цена" aria-label="Цена">
                           </div>
                           <div class="input-group mb-3">
-                             <textarea id="textBook" class="form-control" cols="160" aria-label="Тексе книги" placeholder="Тексе книги"></textarea>
+                            <input id="coverUrl" type="text" class="form-control" placeholder="Вставьте ссылку на обложку из Интернета" aria-label="Вставьте ссылку на обложку из Интернета">
+                          </div>
+                          <div class="input-group mb-3">
+                             <textarea id="textBook" class="form-control" cols="160" aria-label="Тексе книги" placeholder="Текст книги"></textarea>
                           </div>
                        <a id="btnAddBook" href="#" class="btn btn-primary w-100">Добавить книгу</a>
                      </div>
@@ -37,14 +39,14 @@ class BookModule{
         let name = document.getElementById('name').value;
         let author = document.getElementById('author').value;
         let publishedYear = document.getElementById('publishedYear').value;
-        let quantity = document.getElementById('quantity').value;
+        let coverUrl = document.getElementById('coverUrl').value;
         let price = document.getElementById('price').value;
         let textBook = document.getElementById('textBook').value;
         
         if(name === null || name === undefined
               || author === null || author === undefined
               || publishedYear === null || publishedYear === undefined
-              || quantity === null || quantity === undefined
+              || coverUrl === null || coverUrl === undefined
               || price === null || price === undefined
               || textBook === null || textBook === undefined){
           document.getElementById('info').innerHTML='Заполните все поля';
@@ -54,7 +56,7 @@ class BookModule{
           "name": name,
           "author": author,
           "publishedYear": publishedYear,
-          "quantity": quantity,
+          "coverUrl": coverUrl,
           "price": price,
           "textBook": textBook,
         }
@@ -101,14 +103,14 @@ class BookModule{
                     boxBooks.insertAdjacentHTML('afterbegin', 
                         `<div class="col mb-4">
                           <div class="card h-100" style="width: 18em;">
-                            <img src="img/WIM.jpg" class="card-img-top" alt="..." >
+                            <img src="${books[i].coverUrl}" class="card-img-top" alt="..." >
                             <div class="card-body">
-                              <h5 class="card-title">${books[i].name}</h5>
-                              <p class="card-text">${books[i].author}</p>
-                              <p class="card-text">${books[i].price}</p>
-                              <div class="card-footer d-flex justify-content-between">
-                                <button id='btnToRead${books[i].id}' class="btn bg-primary">Читать</button>
-                                <button id='btnToBuy${books[i].id}' class="btn bg-primary">Купить</button>
+                              <h5 class="card-title">Название: ${books[i].name}</h5>
+                              <p class="card-text">Автор: ${books[i].author}</p>
+                              <p class="card-text">Цена: ${books[i].price}</p>
+                              <div class="card-footer d-flex justify-content-center">
+                                <button id='btnToRead${books[i].id}' class="btn bg-primary text-white p-1 m-1">Ознакомиться</button>
+                                <button id='btnToBuy${books[i].id}' class="btn bg-primary text-white p-1 m-1">Купить</button>
                               </div>
                             </div>
                           </div>
@@ -139,11 +141,42 @@ class BookModule{
                     document.getElementById('info').innerHTML='';
                     return;
                   }
-                  document.getElementById('content').innerHTML=response.data;
+                  document.getElementById('content').innerHTML=
+                          `<div class="text-justify mt-5">
+                           (Ознакомительный отрывок)<br>       
+                             ${response.data}...
+                            <br> 
+                            ( конец ознакомительного отрывка )<br>
+                            Чтобы продолжить чтение необходимо <a id="buyBook" href="#">купить</a> книгу
+                          </div>`;
+                  document.getElementById('buyBook').onclick = function(){
+                    bookModule.buyBook(bookId);
+                  }
                 });
+                
   }
     buyBook(bookId){
-      console.log('buyBook.bookId='+bookId);
+      let url = 'buyBook?bookId='+bookId;
+      httpModule.http(url,'GET')
+                .then(function(response){
+                  if(response === null || response === undefined){
+                    document.getElementById('info').innerHTML='Ошибна на сервере';
+                    return;
+                  }
+                  if(response.authStatus === 'false'){
+                    document.getElementById('info').innerHTML='Войдите';
+                    return;
+                  }
+                  if(response.actionStatus === 'false'){
+                    document.getElementById('info').innerHTML='';
+                    return;
+                  }
+                  sessionStorage.setItem('user',response.user);
+                  document.getElementById('content').innerHTML=
+                          `<div class="text-justify mt-5">
+                             ${response.data}
+                          </div>`;
+                });
     }
     
 }

@@ -30,11 +30,12 @@ public class Person implements Serializable {
     private String street;
     private String house;
     private String room;
+    private int money;
 
     public Person() {
     }
 
-    public Person(String firstname, String lastname, String email, String city, String street, String house, String room) {
+    public Person(String firstname, String lastname, String email, String city, String street, String house, String room, int money) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
@@ -42,6 +43,7 @@ public class Person implements Serializable {
         this.street = street;
         this.house = house;
         this.room = room;
+        this.money = money;
     }
 
     public Long getId() {
@@ -164,6 +166,14 @@ public class Person implements Serializable {
     @Override
     public String toString() {
         return "Person{" + "id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email + ", city=" + city + ", street=" + street + ", house=" + house + ", room=" + room + '}';
+    }
+
+    public int getMoney() {
+        return money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
     }
     
     

@@ -6,13 +6,19 @@
 package entity;
 
 import java.io.Serializable;
+import java.sql.Blob;
+import java.sql.Clob;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.Objects;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Temporal;
 
 /**
@@ -28,26 +34,34 @@ public class Book implements Serializable {
     private String name;
     private String author;
     private String publishedYear;
-    private Integer quantity;
     private Integer price;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dateAdded;
     private boolean active;
-    @Blob()
-    private String textBook;
+    @Basic(fetch = FetchType.LAZY)
+    @Lob
+    private byte[] textBookInBytes;
+    private String coverUrl;
 
     public Book() {
     }
 
-    public Book(String name, String author, String publishedYear, Integer quantity, Integer price, Date dateAdded, boolean active, String textBook) {
+    public Book(String name, 
+            String author, 
+            String publishedYear, 
+            Integer price, 
+            Date dateAdded,
+            boolean active, 
+            byte[] textBookInBytes, 
+            String coverUrl) {
         this.name = name;
         this.author = author;
         this.publishedYear = publishedYear;
-        this.quantity = quantity;
         this.price = price;
         this.dateAdded = dateAdded;
         this.active = active;
-        this.textBook = textBook;
+        this.textBookInBytes = textBookInBytes;
+        this.coverUrl = coverUrl;
     }
 
     
@@ -82,14 +96,6 @@ public class Book implements Serializable {
 
     public void setPublishedYear(String publishedYear) {
         this.publishedYear = publishedYear;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
     }
 
     public Integer getPrice() {
@@ -174,13 +180,34 @@ public class Book implements Serializable {
         return "Book{" + "id=" + id + ", name=" + name + ", author=" + author + ", publishedYear=" + publishedYear + ", quantity=" + quantity + ", price=" + price + ", dateAdded=" + dateAdded + ", active=" + active + '}';
     }
 
-    public String getTextBook() {
-        return textBook;
+    public byte[] getTextBookInBytes() {
+        return textBookInBytes;
     }
 
-    public void setTextBook(String textBook) {
-        this.textBook = textBook;
+    public void setTextBookInBytes(byte[] textBookInBytes) {
+        this.textBookInBytes = textBookInBytes;
     }
+    public String getTextBookLimit(int countByte){
+        String fullText = new String(getTextBookInBytes());
+        return fullText.substring(0,countByte);
+    }
+    public String getTextBookFull(){
+        return new String(getTextBookInBytes());
+    }
+
+    public String getCoverUrl() {
+        return coverUrl;
+    }
+
+    public void setCoverUrl(String coverUrl) {
+        this.coverUrl = coverUrl;
+    }
+    
+    
+   
+
+   
+    
 
     
 }

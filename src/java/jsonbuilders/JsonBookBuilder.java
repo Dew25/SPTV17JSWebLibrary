@@ -15,7 +15,7 @@ import javax.json.JsonObjectBuilder;
 
 /**
  *
- * @author Irina
+ * @author JVM
  */
 public class JsonBookBuilder {
     public JsonObject cerateJsonBookObject(Book book){
@@ -24,11 +24,11 @@ public class JsonBookBuilder {
                 .add("name", book.getName())
                 .add("author", book.getAuthor())
                 .add("publishedYear",book.getPublishedYear())
-                .add("quantity", book.getQuantity())
+                .add("coverUrl", book.getCoverUrl())
                 .add("price",book.getPrice())
                 .add("dateAdded",book.getDateAdded().toString())
                 .add("active", book.isActive())
-                .add("textBook", book.getTextBook());
+                .add("textBook", book.getTextBookFull());
          return job.build();
     }
     public JsonArray createJsonListBooks(List<Book> listBooks){
